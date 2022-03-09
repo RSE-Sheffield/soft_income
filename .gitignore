@@ -1,0 +1,12 @@
+# Rstudio gubbins
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# Inputs
+*.csv
+
+# Outputs
+*.html
+*.pdf
