@@ -1,0 +1,104 @@
+---
+title: "Licencing Income"
+author: "Bob"
+date: '2022-03-02'
+output:
+  pdf_document: default
+  html_document: default
+fig_width: 6
+fig_height: 4
+---
+
+In this notebook we explore how much money is made from licencing IP, particularly software licences at UK higher education providers. Academic years covered are from 2014/15 through to 2019/20. All money values are in 1000s of £ unless otherwise stated.
+
+For context the University of Sheffield's research income in 2020/21 was £164m (https://www.sheffield.ac.uk/finance/annual-report-financial-statements).
+
+## Setup
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width=12, fig.height=8)
+library(magrittr)
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(forcats)
+```
+
+
+## Load data
+
+Source https://www.hesa.ac.uk/data-and-analysis/business-community/ip-and-startups
+
+```{r}
+table_4c <- readr::read_delim("https://www.hesa.ac.uk/data-and-analysis/providers/business-community/table-4c.csv", skip=11)
+```
+
+# Top Ten IP Income
+
+Total IP income over all available academic years (6).
+
+```{r}
+top_ten_IP <- table_4c %>%
+  group_by(`HE Provider`) %>%
+  summarise(Total_IP_Value = sum(Value)) %>%
+  top_n(10, Total_IP_Value) %>%
+  mutate(`HE Provider` = fct_reorder(`HE Provider`, Total_IP_Value))
+
+top_ten_IP %>%
+  ggplot(aes(x=`HE Provider`, y=Total_IP_Value)) +
+  geom_col() +
+  coord_flip()
+```
+
+# All data from Top Ten IP
+
+Time series split by IP type for top ten institutions.
+
+```{r}
+top_ten_IP_all_data <- top_ten_IP %>%
+                      left_join(table_4c)
+```
+
+```{r}
+top_ten_IP_all_data %>% 
+  ggplot(aes(x=`Academic Year`, y=Value, fill=`Income source`)) +
+    geom_col() +
+    facet_wrap(~ `HE Provider`, nrow=5)
+```
+
+# Top Ten Software Income
+
+Total software income over all available academic years (6).
+
+```{r}
+top_ten_software <- table_4c %>%
+  filter(`Income source` == "Software licences income") %>%
+  group_by(`HE Provider`) %>%
+  summarise(Software_IP_Value = sum(Value)) %>%
+  top_n(10, Software_IP_Value) %>%
+  mutate(`HE Provider` = fct_reorder(`HE Provider`, Software_IP_Value))
+
+top_ten_software %>%
+  ggplot(aes(x=`HE Provider`, y=Software_IP_Value)) +
+  geom_col() +
+  coord_flip()
+```
+
+
+# All data from Top Ten software
+
+Time series software licencing income for top ten institutions.
+
+```{r}
+top_ten_software_all_data <- top_ten_software %>%
+                      left_join(table_4c)
+```
+
+
+```{r}
+top_ten_software_all_data %>% 
+  filter(`Income source` == "Software licences income") %>%
+  ggplot(aes(x=`Academic Year`, y=Value)) +
+    geom_col() +
+    facet_wrap(~ `HE Provider`, nrow=5)
+```
