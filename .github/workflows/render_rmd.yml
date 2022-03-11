@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     container: rocker/r-rmd
     steps:
+      - name: Install git in container
+        run: |
+          apt install git-all
+
       - name: Set up Git repository
         uses: actions/checkout@v2
 
