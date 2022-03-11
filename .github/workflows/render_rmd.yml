@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Install git in container
         run: |
-          apt install git-all
+          apt install -y git-all
 
       - name: Set up Git repository
         uses: actions/checkout@v2
