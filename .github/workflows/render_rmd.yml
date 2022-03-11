@@ -19,11 +19,7 @@ jobs:
 
       - name: Render document
         run: |
-          Rscript -e "rmarkdown::render('licencing_income.Rmd')"
-
-      - name: Rename and move output input_file
-        run: |
-          mv licencing_income.html build/index.html
+          Rscript -e "rmarkdown::render('licencing_income.Rmd', output_file='build/index.html')"
 
       - name: Deploy to gh pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
