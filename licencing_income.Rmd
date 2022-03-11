@@ -16,7 +16,7 @@ For context the University of Sheffield's research income in 2020/21 was £164m 
 ## Setup
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.width=12, fig.height=8)
+knitr::opts_chunk$set(echo = TRUE, fig.width=10, fig.height=7, dpi=300)
 library(magrittr)
 library(dplyr)
 library(readr)
@@ -42,18 +42,18 @@ table_4c <- table_4c %>%
 
 # Top Ten IP Income
 
-Total IP income over all available academic years (6 years).
+Average IP income over all available academic years (6 years).
 
 ```{r}
 top_ten_IP <- table_4c %>%
   group_by(`HE Provider`) %>%
-  summarise(`Total IP Value (million £s)` = sum(Value)) %>%
-  top_n(10, `Total IP Value (million £s)`) %>%
-  mutate(`HE Provider` = fct_reorder(`HE Provider`, `Total IP Value (million £s)`))
+  summarise(`Mean IP Value (million £s)` = sum(Value) / 6) %>%
+  top_n(10, `Mean IP Value (million £s)`) %>%
+  mutate(`HE Provider` = fct_reorder(`HE Provider`, `Mean IP Value (million £s)`))
 
 kbl(top_ten_IP %>% 
-  arrange(-`Total IP Value (million £s)`) %>%
-  mutate(`Total IP Value (million £s)` = round(`Total IP Value (million £s)`))) %>%
+  arrange(-`Mean IP Value (million £s)`) %>%
+  mutate(`Mean IP Value (million £s)` = round(`Mean IP Value (million £s)`, digits=1))) %>%
   kable_styling()
   
 ```
@@ -76,20 +76,20 @@ top_ten_IP_all_data %>%
 
 # Top Ten Software Income
 
-Total software income over all available academic years (6).
+Average software income over all available academic years (6 years).
 
 ```{r}
 top_ten_software <- table_4c %>%
   filter(`Income source` == "Software licences income") %>%
   group_by(`HE Provider`) %>%
-  summarise(Software_IP_Value = sum(Value)) %>%
-  top_n(10, Software_IP_Value) %>%
-  mutate(`HE Provider` = fct_reorder(`HE Provider`, Software_IP_Value))
+  summarise(`Mean Software IP Value (millions £)` = sum(Value) / 6) %>%
+  top_n(10, `Mean Software IP Value (millions £)`) %>%
+  mutate(`HE Provider` = fct_reorder(`HE Provider`, `Mean Software IP Value (millions £)`))
 
-top_ten_software %>%
-  ggplot(aes(x=`HE Provider`, y=Software_IP_Value)) +
-  geom_col() +
-  coord_flip()
+kbl(top_ten_software %>% 
+  arrange(-`Mean Software IP Value (millions £)`) %>%
+  mutate(`Mean Software IP Value (millions £)` = round(`Mean Software IP Value (millions £)`, digits=1))) %>%
+  kable_styling()
 ```
 
 
