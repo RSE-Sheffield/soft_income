@@ -1,5 +1,10 @@
 name: Render documents with rmarkdown-action
-on: [push]
+
+runs-on:
+  workflow_dispatch:
+  push:    
+    branches:
+      - main
 jobs:
   render_document:
     runs-on: ubuntu-latest
