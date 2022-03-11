@@ -1,4 +1,4 @@
-name: Render documents with rmarkdown-action
+#name: Render documents with rmarkdown-action
 
 runs-on:
   workflow_dispatch:
