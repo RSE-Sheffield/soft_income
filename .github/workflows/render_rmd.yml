@@ -18,10 +18,8 @@ jobs:
           mkdir build
 
       - name: Render document
-        uses: lc5415/rmarkdown-action@v1
-        with:
-          input_file: licencing_income.Rmd
-          output_format: html_document
+        run: |
+          Rscript -e "rmarkdown::render('licencing_imcome.Rmd')"
 
       - name: Rename and move output input_file
         run: |
