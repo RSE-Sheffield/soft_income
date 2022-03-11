@@ -17,7 +17,7 @@ jobs:
         uses: lc5415/rmarkdown-action@v1
         with:
           input_file: licencing_income.Rmd
-	        output_format: html_document
+          output_format: html_document
           output_file: build/index.html
 
       - name: Deploy to gh pages
