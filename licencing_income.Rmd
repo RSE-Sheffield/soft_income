@@ -3,13 +3,13 @@ title: "Licencing Income"
 author: "Bob"
 date: '2022-03-02'
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 fig_width: 6
 fig_height: 4
 ---
 
-In this notebook we explore how much money is made from licencing IP, particularly software licences at UK higher education providers. Academic years covered are from 2014/15 through to 2019/20. All money values are in 1000s of £ unless otherwise stated.
+In this notebook we explore how much money is made from licencing IP, particularly software licences at UK higher education providers. Academic years covered are from 2014/15 through to 2019/20. All money values are in millions of £ unless otherwise stated.
 
 For context the University of Sheffield's research income in 2020/21 was £164m (https://www.sheffield.ac.uk/finance/annual-report-financial-statements).
 
@@ -22,6 +22,7 @@ library(dplyr)
 library(readr)
 library(ggplot2)
 library(forcats)
+library(kableExtra)
 ```
 
 
@@ -33,9 +34,15 @@ Source https://www.hesa.ac.uk/data-and-analysis/business-community/ip-and-startu
 table_4c <- readr::read_delim("https://www.hesa.ac.uk/data-and-analysis/providers/business-community/table-4c.csv", skip=11)
 ```
 
+```{r}
+table_4c <- table_4c %>%
+  mutate(Value = Value / 1000)
+```
+
+
 # Top Ten IP Income
 
-Total IP income over all available academic years (6).
+Total IP income over all available academic years (6 years).
 
 ```{r}
 top_ten_IP <- table_4c %>%
@@ -44,10 +51,11 @@ top_ten_IP <- table_4c %>%
   top_n(10, Total_IP_Value) %>%
   mutate(`HE Provider` = fct_reorder(`HE Provider`, Total_IP_Value))
 
-top_ten_IP %>%
-  ggplot(aes(x=`HE Provider`, y=Total_IP_Value)) +
-  geom_col() +
-  coord_flip()
+kbl(top_ten_IP %>% 
+  arrange(-Total_IP_Value) %>%
+  mutate(Total_IP_Value = round(Total_IP_Value))) %>%
+  kable_styling()
+  
 ```
 
 # All data from Top Ten IP
