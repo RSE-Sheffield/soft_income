@@ -13,6 +13,10 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
 
+      - name: Make build folders
+        run: |
+          mkdir build
+
       - name: Render document
         uses: lc5415/rmarkdown-action@v1
         with:
