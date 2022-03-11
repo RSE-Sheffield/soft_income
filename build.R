@@ -1,2 +1,1 @@
-renv::restore()
 rmarkdown::render('licencing_income.Rmd', output_format='html_document', output_file='build/index.html')
