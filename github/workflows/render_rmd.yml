@@ -2,9 +2,7 @@
 
 runs-on:
   workflow_dispatch:
-  push:    
-    branches:
-      - main
+  push:
 
 jobs:
   render_document:
