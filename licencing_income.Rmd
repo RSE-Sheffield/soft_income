@@ -13,10 +13,8 @@ In this notebook we explore how much money is made from licencing IP, particular
 
 For context the University of Sheffield's research income in 2020/21 was £164m (https://www.sheffield.ac.uk/finance/annual-report-financial-statements).
 
-## Setup
-
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.width=10, fig.height=7, dpi=300)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width=10, fig.height=7, dpi=300)
 library(magrittr)
 library(dplyr)
 library(readr)
@@ -26,7 +24,7 @@ library(kableExtra)
 ```
 
 
-## Load data
+## Source data
 
 Source https://www.hesa.ac.uk/data-and-analysis/business-community/ip-and-startups
 
@@ -71,7 +69,8 @@ top_ten_IP_all_data <- top_ten_IP %>%
 top_ten_IP_all_data %>% 
   ggplot(aes(x=`Academic Year`, y=Value, fill=`Income source`)) +
     geom_col() +
-    facet_wrap(~ `HE Provider`, nrow=5)
+    facet_wrap(~ `HE Provider`, nrow=5) +
+    ylab("Value millions £")
 ```
 
 # Top Ten Software Income
@@ -108,5 +107,6 @@ top_ten_software_all_data %>%
   filter(`Income source` == "Software licences income") %>%
   ggplot(aes(x=`Academic Year`, y=Value)) +
     geom_col() +
-    facet_wrap(~ `HE Provider`, nrow=5)
+    facet_wrap(~ `HE Provider`, nrow=5) +
+    ylab("Value millions £")
 ```
