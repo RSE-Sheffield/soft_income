@@ -19,7 +19,7 @@ jobs:
 
       - name: Render document
         run: |
-          Rscript -e "rmarkdown::render('licencing_imcome.Rmd')"
+          Rscript -e "rmarkdown::render('licencing_income.Rmd')"
 
       - name: Rename and move output input_file
         run: |
