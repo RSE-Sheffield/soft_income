@@ -13,6 +13,10 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
 
+      - name: Install curl
+        run: |
+          apt-get install -y libcurl4-openssl-dev
+
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
         
