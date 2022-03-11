@@ -203,13 +203,13 @@ pre code {
 <p>Total IP income over all available academic years (6 years).</p>
 <pre class="r"><code>top_ten_IP &lt;- table_4c %&gt;%
   group_by(`HE Provider`) %&gt;%
-  summarise(Total_IP_Value = sum(Value)) %&gt;%
-  top_n(10, Total_IP_Value) %&gt;%
-  mutate(`HE Provider` = fct_reorder(`HE Provider`, Total_IP_Value))
+  summarise(`Total IP Value (million £s)` = sum(Value)) %&gt;%
+  top_n(10, `Total IP Value (million £s)`) %&gt;%
+  mutate(`HE Provider` = fct_reorder(`HE Provider`, `Total IP Value (million £s)`))
 
 kbl(top_ten_IP %&gt;% 
-  arrange(-Total_IP_Value) %&gt;%
-  mutate(Total_IP_Value = round(Total_IP_Value))) %&gt;%
+  arrange(-`Total IP Value (million £s)`) %&gt;%
+  mutate(`Total IP Value (million £s)` = round(`Total IP Value (million £s)`))) %&gt;%
   kable_styling()</code></pre>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
@@ -218,7 +218,7 @@ kbl(top_ten_IP %&gt;%
 HE Provider
 </th>
 <th style="text-align:right;">
-Total_IP_Value
+Total IP Value (million £s)
 </th>
 </tr>
 </thead>
