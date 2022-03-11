@@ -19,7 +19,7 @@ jobs:
 
       - name: Render document
         run: |
-          Rscript -e "rmarkdown::render('licencing_income.Rmd', output_file='build/index.html')"
+          Rscript -e "rmarkdown::render('licencing_income.Rmd', output_format='html_document', output_file='build/index.html')"
 
       - name: Deploy to gh pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
