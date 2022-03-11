@@ -47,13 +47,13 @@ Total IP income over all available academic years (6 years).
 ```{r}
 top_ten_IP <- table_4c %>%
   group_by(`HE Provider`) %>%
-  summarise(Total_IP_Value = sum(Value)) %>%
-  top_n(10, Total_IP_Value) %>%
-  mutate(`HE Provider` = fct_reorder(`HE Provider`, Total_IP_Value))
+  summarise(`Total IP Value (million £s)` = sum(Value)) %>%
+  top_n(10, `Total IP Value (million £s)`) %>%
+  mutate(`HE Provider` = fct_reorder(`HE Provider`, `Total IP Value (million £s)`))
 
 kbl(top_ten_IP %>% 
-  arrange(-Total_IP_Value) %>%
-  mutate(Total_IP_Value = round(Total_IP_Value))) %>%
+  arrange(-`Total IP Value (million £s)`) %>%
+  mutate(`Total IP Value (million £s)` = round(`Total IP Value (million £s)`))) %>%
   kable_styling()
   
 ```
