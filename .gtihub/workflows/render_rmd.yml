@@ -5,6 +5,7 @@ runs-on:
   push:    
     branches:
       - main
+
 jobs:
   render_document:
     runs-on: ubuntu-latest
