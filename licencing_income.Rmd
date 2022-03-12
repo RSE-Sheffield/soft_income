@@ -157,8 +157,9 @@ top_ten_research_all_data <- top_ten_research %>%
 ```{r}
 top_ten_research_all_data %>% 
   filter(Category == "Research grants and contracts") %>%
-  ggplot(aes(x=`Academic year`, y=Value)) +
+  ggplot(aes(x=`Academic year`, y=Value, label=round(Value, digits = 1))) +
     geom_col() +
+    geom_text(size = 3, nudge_y = -1000) +
     facet_wrap(~ `HE Provider`, nrow=5) +
     ylab("Value millions £")
 ```
