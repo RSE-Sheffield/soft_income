@@ -129,7 +129,7 @@ top_ten_software_all_data %>%
 
 # Top Ten Research Income
 
-Average reserach income over all available academic years (5 years).
+Average reserach income over all available academic years (5 years). *I'm pretty sure this table is wrong.*
 
 ```{r}
 top_ten_research <- table_1 %>%
