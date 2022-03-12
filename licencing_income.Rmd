@@ -129,13 +129,13 @@ top_ten_software_all_data %>%
 
 # Top Ten Research Income
 
-Average reserach income over all available academic years (6 years).
+Average reserach income over all available academic years (5 years).
 
 ```{r}
 top_ten_research <- table_1 %>%
   filter(Category == "Research grants and contracts") %>%
   group_by(`HE Provider`) %>%
-  summarise(`Mean Research Income (millions £)` = sum(Value) / 6) %>%
+  summarise(`Mean Research Income (millions £)` = sum(Value) / 5) %>%
   top_n(10, `Mean Research Income (millions £)`) %>%
   mutate(`HE Provider` = fct_reorder(`HE Provider`, `Mean Research Income (millions £)`))
 
@@ -159,7 +159,7 @@ top_ten_research_all_data %>%
   filter(Category == "Research grants and contracts") %>%
   ggplot(aes(x=`Academic year`, y=Value, label=round(Value, digits = 1))) +
     geom_col() +
-    geom_text(size = 3, nudge_y = -1000) +
+    geom_text(size = 3, nudge_y = 5000) +
     facet_wrap(~ `HE Provider`, nrow=5) +
     ylab("Value millions £")
 ```
