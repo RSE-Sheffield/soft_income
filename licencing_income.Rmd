@@ -1,5 +1,5 @@
 ---
-title: "Licencing Income"
+title: "Licencing Income (WIP)"
 author: "Bob"
 date: '2022-03-02'
 output:
@@ -11,7 +11,7 @@ fig_height: 4
 
 In this notebook we explore how much money is made from licencing IP, particularly software licences at UK higher education providers. Academic years covered are from 2014/15 through to 2019/20. All money values are in millions of £ unless otherwise stated.
 
-For context the University of Sheffield's research income in 2020/21 was £164m (https://www.sheffield.ac.uk/finance/annual-report-financial-statements).
+Source code here https://github.com/RSE-Sheffield/soft_income
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width=10, fig.height=7, dpi=300, dev="CairoPNG")
@@ -27,15 +27,30 @@ library(Cairo)
 
 ## Source data
 
-Source https://www.hesa.ac.uk/data-and-analysis/business-community/ip-and-startups
+Sources:
+
+* https://www.hesa.ac.uk/data-and-analysis/finances/table-1.csv
+* https://www.hesa.ac.uk/data-and-analysis/business-community/ip-and-startups, 
 
 ```{r}
+table_1 <- readr::read_delim("https://www.hesa.ac.uk/data-and-analysis/finances/table-1.csv", skip=12)
 table_4c <- readr::read_delim("https://www.hesa.ac.uk/data-and-analysis/providers/business-community/table-4c.csv", skip=11)
 ```
 
 ```{r}
+table_1 <- table_1 %>%
+  rename(Value = `Value(£000s)`) %>%
+  mutate(Value = as.numeric( gsub("\\)", "", gsub("\\(", "-", Value)))) %>%
+  mutate(Value = Value / 1000)
+
 table_4c <- table_4c %>%
   mutate(Value = Value / 1000)
+```
+
+
+```{r}
+table_1 <- table_1 %>%
+  filter(`HE Provider` != "Total")
 ```
 
 
@@ -76,7 +91,7 @@ top_ten_IP_all_data %>%
 
 # Top Ten Software Income
 
-Average software income over all available academic years (6 years).
+Average software licencing income over all available academic years (6 years).
 
 ```{r}
 top_ten_software <- table_4c %>%
@@ -107,6 +122,42 @@ top_ten_software_all_data <- top_ten_software %>%
 top_ten_software_all_data %>% 
   filter(`Income source` == "Software licences income") %>%
   ggplot(aes(x=`Academic Year`, y=Value)) +
+    geom_col() +
+    facet_wrap(~ `HE Provider`, nrow=5) +
+    ylab("Value millions £")
+```
+
+# Top Ten Research Income
+
+Average reserach income over all available academic years (6 years).
+
+```{r}
+top_ten_research <- table_1 %>%
+  filter(Category == "Research grants and contracts") %>%
+  group_by(`HE Provider`) %>%
+  summarise(`Mean Research Income (millions £)` = sum(Value) / 6) %>%
+  top_n(10, `Mean Research Income (millions £)`) %>%
+  mutate(`HE Provider` = fct_reorder(`HE Provider`, `Mean Research Income (millions £)`))
+
+kbl(top_ten_research %>% 
+  arrange(-`Mean Research Income (millions £)`) %>%
+  mutate(`Mean Research Income (millions £)` = round(`Mean Research Income (millions £)`, digits=1))) %>%
+  kable_styling()
+```
+
+# All data from Top Ten research income
+
+Time series research income for top ten institutions.
+
+```{r}
+top_ten_research_all_data <- top_ten_research %>%
+                      left_join(table_1)
+```
+
+```{r}
+top_ten_research_all_data %>% 
+  filter(Category == "Research grants and contracts") %>%
+  ggplot(aes(x=`Academic year`, y=Value)) +
     geom_col() +
     facet_wrap(~ `HE Provider`, nrow=5) +
     ylab("Value millions £")
