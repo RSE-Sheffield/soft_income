@@ -128,8 +128,11 @@ top_ten_software_all_data <- top_ten_software %>%
 ```{r}
 top_ten_software_all_data %>% 
   filter(`Income source` == "Software licences income") %>%
-  ggplot(aes(x=`Academic Year`, y=Value)) +
+  group_by(`HE Provider`, `Academic Year`) %>%
+  summarise(Value = sum(Value)) %>%
+  ggplot(aes(x=`Academic Year`, y=Value, label=Value)) +
     geom_col() +
+    geom_text(size = 3, nudge_y = 0.5) +
     facet_wrap(~ `HE Provider`, nrow=5) +
     ylab("Value millions £")
 ```
