@@ -9,6 +9,14 @@
     ]
   },
   "Packages": {
+    "Cairo": {
+      "Package": "Cairo",
+      "Version": "1.5-14",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "4867e655c701a864e949162b4e633c85",
+      "Requirements": []
+    },
     "MASS": {
       "Package": "MASS",
       "Version": "7.3-55",
