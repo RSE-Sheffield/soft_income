@@ -38,6 +38,8 @@ table_4c <- readr::read_delim("https://www.hesa.ac.uk/data-and-analysis/provider
 ```
 
 ```{r}
+# Data cleaning - money
+
 table_1 <- table_1 %>%
   rename(Value = `Value(£000s)`) %>%
   mutate(Value = as.numeric( gsub("\\)", "", gsub("\\(", "-", Value)))) %>%
@@ -49,8 +51,13 @@ table_4c <- table_4c %>%
 
 
 ```{r}
+# Data cleaning - subtotals
+
 table_1 <- table_1 %>%
-  filter(`HE Provider` != "Total")
+  filter(`HE Provider` != "Total" & 
+          `Country of HE provider` == "All" & 
+           `Region of HE provider` == "All" & 
+           `Year End Month` == "All")
 ```
 
 
@@ -129,7 +136,14 @@ top_ten_software_all_data %>%
 
 # Top Ten Research Income
 
-Average reserach income over all available academic years (5 years). *I'm pretty sure this table is wrong.*
+Average research income over all available academic years (5 years). *I'm pretty sure this table is wrong.*
+
+
+```{r}
+temp <- table_1 %>%
+  filter(Category == "Research grants and contracts" & `HE Provider` == "The University of Sheffield")
+```
+
 
 ```{r}
 top_ten_research <- table_1 %>%
