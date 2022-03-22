@@ -38,7 +38,7 @@ table_4c <- readr::read_delim("https://www.hesa.ac.uk/data-and-analysis/provider
 ```
 
 ```{r}
-# Data cleaning - money
+# Data cleaning - money - consistent values
 
 table_1 <- table_1 %>%
   rename(Value = `Value(£000s)`) %>%
@@ -51,7 +51,7 @@ table_4c <- table_4c %>%
 
 
 ```{r}
-# Data cleaning - subtotals
+# Data cleaning - remove subtotals and duplicates
 
 table_1 <- table_1 %>%
   filter(`HE Provider` != "Total" & 
