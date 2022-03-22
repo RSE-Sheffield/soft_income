@@ -139,7 +139,7 @@ top_ten_software_all_data %>%
 
 # Top Ten Research Income
 
-Average research income over all available academic years (5 years). *I'm pretty sure this table is wrong.*
+Average research income over all available academic years (5 years).
 
 
 ```{r}
